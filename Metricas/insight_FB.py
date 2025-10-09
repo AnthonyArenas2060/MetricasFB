@@ -2,7 +2,6 @@ import pandas as pd
 import streamlit as st
 import facebook
 import requests
-from transformers import pipeline
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -94,4 +93,5 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 

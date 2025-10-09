@@ -1,0 +1,10 @@
+streamlit
+streamlit-authenticator
+facebook-sdk
+pandas
+matplotlib
+requests
+numpy  
+torch
+tensorflow
+transformers

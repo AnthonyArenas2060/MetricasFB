@@ -73,9 +73,19 @@ if user_long_token:
                 dataframe_facebook = pd.DataFrame(fans['data'][0]['values'])
                 dataframe_facebook.columns = ['Fans', 'Fecha']
                 dataframe_facebook['Fecha'] = pd.to_datetime(dataframe_facebook['Fecha'])
-                dataframe_facebook['Fecha'] = dataframe_facebook['Fecha'].dt.strftime('%Y-%m-%d')
+                #dataframe_facebook['Fecha'] = dataframe_facebook['Fecha'].dt.strftime('%Y-%m-%d')
+                df_fans = dataframe_facebook.set_index('Fecha')
+                df_fans['Nuevos Fans Netos'] = df_fans['Fans'].diff(periods=1)
+                df_fans['Nuevos Fans Netos'] = df_fans['Nuevos Fans Netos'].fillna(0)
+                
                 st.subheader("Fans asociados a tu cuenta")
                 st.dataframe(dataframe_facebook)
+                st.line_chart(
+                                df_fans['Nuevos Fans Netos'],
+                                y_label='Nuevos Fans Netos',
+                                use_container_width=True
+                            )
+                
 
                 posts = graph.get_connections(id=page_id, connection_name="feed", since=date_ini, until=date_fin)
                 posteos = pd.DataFrame(posts['data'])
@@ -93,5 +103,6 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 

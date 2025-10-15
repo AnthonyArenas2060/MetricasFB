@@ -79,7 +79,7 @@ if user_long_token:
                 df_fans['Nuevos Fans Netos'] = df_fans['Fans'].diff(periods=1)
                 df_fans['Nuevos Fans Netos'] = df_fans['Nuevos Fans Netos'].fillna(0)
 
-                dataframe_facebook2 = pd.DataFrame(follow['data'][0]['values'])
+                dataframe_facebook2 = pd.DataFrame(follow['data'][1]['values'])
                 dataframe_facebook2.columns = ['Followers', 'Fecha']
                 dataframe_facebook2['Fecha'] = pd.to_datetime(dataframe_facebook2['Fecha'])
                 #dataframe_facebook2['Fecha'] = dataframe_facebook2['Fecha'].dt.strftime('%Y-%m-%d')
@@ -116,6 +116,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

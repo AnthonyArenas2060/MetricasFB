@@ -70,6 +70,7 @@ if user_long_token:
                 graph.get_object(id=page_id, fields='name')
 
                 fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
+                follow = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_follows', since = date_ini, until = date_fin)
                 dataframe_facebook = pd.DataFrame(fans['data'][0]['values'])
                 dataframe_facebook.columns = ['Fans', 'Fecha']
                 dataframe_facebook['Fecha'] = pd.to_datetime(dataframe_facebook['Fecha'])
@@ -77,11 +78,23 @@ if user_long_token:
                 df_fans = dataframe_facebook.set_index('Fecha')
                 df_fans['Nuevos Fans Netos'] = df_fans['Fans'].diff(periods=1)
                 df_fans['Nuevos Fans Netos'] = df_fans['Nuevos Fans Netos'].fillna(0)
+
+                dataframe_facebook2 = pd.DataFrame(follow['data'][0]['values'])
+                dataframe_facebook2.columns = ['Followers', 'Fecha']
+                dataframe_facebook2['Fecha'] = pd.to_datetime(dataframe_facebook2['Fecha'])
+                #dataframe_facebook2['Fecha'] = dataframe_facebook2['Fecha'].dt.strftime('%Y-%m-%d')
+                df_fans2 = dataframe_facebook2.set_index('Fecha')
+                df_fans2['Nuevos Fans Netos'] = df_fans2['Fans'].diff(periods=1)
+                df_fans2['Nuevos Fans Netos'] = df_fans2['Nuevos Fans Netos'].fillna(0)
                 
                 st.subheader("Fans asociados a tu cuenta")
                 st.dataframe(dataframe_facebook)
+
+                st.subheader("Followers asociados a tu cuenta")
+                st.dataframe(dataframe_facebook)
+                
                 st.line_chart(
-                                df_fans['Nuevos Fans Netos'],
+                                df_fans2['Nuevos Fans Netos'],
                                 y_label='Nuevos Fans Netos',
                                 use_container_width=True
                             )
@@ -103,6 +116,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

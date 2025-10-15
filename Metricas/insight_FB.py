@@ -91,10 +91,10 @@ if user_long_token:
                 st.dataframe(dataframe_facebook)
 
                 st.subheader("Followers asociados a tu cuenta")
-                st.dataframe(dataframe_facebook)
+                st.dataframe(dataframe_facebook2)
                 
                 st.line_chart(
-                                df_fans2['Nuevos Fans Netos'],
+                                df_fans['Nuevos Fans Netos'],
                                 y_label='Nuevos Fans Netos',
                                 use_container_width=True
                             )
@@ -116,6 +116,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

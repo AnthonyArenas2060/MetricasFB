@@ -69,15 +69,15 @@ if user_long_token:
                 graph = facebook.GraphAPI(access_token=permanent_page_token, version=3.1)
                 graph.get_object(id=page_id, fields='name')
 
-                fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
+                #fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
                 follow = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_follows', since = date_ini, until = date_fin)
-                dataframe_facebook = pd.DataFrame(fans['data'][0]['values'])
-                dataframe_facebook.columns = ['Fans', 'Fecha']
-                dataframe_facebook['Fecha'] = pd.to_datetime(dataframe_facebook['Fecha'])
+                #dataframe_facebook = pd.DataFrame(fans['data'][0]['values'])
+                #dataframe_facebook.columns = ['Fans', 'Fecha']
+                #dataframe_facebook['Fecha'] = pd.to_datetime(dataframe_facebook['Fecha'])
                 #dataframe_facebook['Fecha'] = dataframe_facebook['Fecha'].dt.strftime('%Y-%m-%d')
-                df_fans = dataframe_facebook.set_index('Fecha')
-                df_fans['Nuevos Fans Netos'] = df_fans['Fans'].diff(periods=1)
-                df_fans['Nuevos Fans Netos'] = df_fans['Nuevos Fans Netos'].fillna(0)
+                #df_fans = dataframe_facebook.set_index('Fecha')
+                #df_fans['Nuevos Fans Netos'] = df_fans['Fans'].diff(periods=1)
+                #df_fans['Nuevos Fans Netos'] = df_fans['Nuevos Fans Netos'].fillna(0)
 
                 dataframe_facebook2 = pd.DataFrame(follow['data'][1]['values'])
                 dataframe_facebook2.columns = ['Followers', 'Fecha']
@@ -87,8 +87,8 @@ if user_long_token:
                 df_fans2['Nuevos Followers Netos'] = df_fans2['Followers'].diff(periods=1)
                 df_fans2['Nuevos Followers Netos'] = df_fans2['Nuevos Followers Netos'].fillna(0)
                 
-                st.subheader("Fans asociados a tu cuenta")
-                st.dataframe(dataframe_facebook)
+                #st.subheader("Fans asociados a tu cuenta")
+                #st.dataframe(dataframe_facebook)
 
                 st.subheader("Followers asociados a tu cuenta")
                 st.dataframe(dataframe_facebook2)
@@ -116,6 +116,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

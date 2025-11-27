@@ -116,11 +116,12 @@ if user_long_token:
                         imp.append(impresion_post['data'][0]['values'][0]['value'])
                         imp_pg.append(impresion_post['data'][1]['values'][0]['value'])
                         react.append(sum(impresion_post['data'][2]['values'][0]['value'].values()))
-                        
-                        shar = graph.get_object(id=str(i),fields='shares')
-                        st.subheader(shar)
-                        #sh.append(shar['shares']['count'])
-                        
+                        try:
+                            shar = graph.get_object(id=str(i),fields='shares')
+                            sh.append(shar['shares']['count'])
+                        except:
+                            sh.append(0)
+                            
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
                     posteos['Reacciones'] = react
@@ -131,7 +132,7 @@ if user_long_token:
                         else:
                             tp.append("Pautado")
                     posteos["Tipo"] = tp    
-                    #posteos["Shares"] = sh
+                    posteos["Shares"] = sh
                     st.subheader("📋 Post asociadas a tu cuenta")
                     st.dataframe(posteos)
                 else:
@@ -140,6 +141,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

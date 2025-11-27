@@ -121,7 +121,7 @@ if user_long_token:
                             tp.append("Organico")
                         else:
                             tp.append("Pautado")
-                    
+                    posteos["Tipo"] = tp
                     st.subheader("📋 Post asociadas a tu cuenta")
                     st.dataframe(posteos)
                 else:
@@ -130,6 +130,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

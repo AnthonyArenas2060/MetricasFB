@@ -107,7 +107,11 @@ if user_long_token:
                     posteos.columns = ['Fecha', 'Mensaje', 'id']  # , 'stories']
                     posteos['Fecha'] = pd.to_datetime(posteos['Fecha'])
                     posteos['Fecha'] = posteos['Fecha'].dt.strftime('%Y-%m-%d')
-
+                    imp=[]
+                    for i in posteos['id']:
+                        impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique')
+                        imp.append(impresion_post['data'][0]['values'][0]['value'])
+                    posteos['Alcance'] = imp
                     st.subheader("📋 Post asociadas a tu cuenta")
                     st.dataframe(posteos)
                 else:
@@ -116,6 +120,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

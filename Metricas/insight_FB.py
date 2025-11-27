@@ -115,6 +115,13 @@ if user_long_token:
                         imp_pg.append(impresion_post['data'][1]['values'][0]['value'])
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
+                    tp = []
+                    for i in posteos['Alcance Pagado']:
+                        if i == 0:
+                            tp.append("Organico")
+                        else:
+                            tp.append("Pautado")
+                    
                     st.subheader("📋 Post asociadas a tu cuenta")
                     st.dataframe(posteos)
                 else:
@@ -123,6 +130,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

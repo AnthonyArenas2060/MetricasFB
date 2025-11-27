@@ -109,12 +109,15 @@ if user_long_token:
                     posteos['Fecha'] = posteos['Fecha'].dt.strftime('%Y-%m-%d')
                     imp=[]
                     imp_pg = []
+                    react = []
                     for i in posteos['id']:
-                        impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique')
+                        impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique,post_reactions_by_type_total')
                         imp.append(impresion_post['data'][0]['values'][0]['value'])
                         imp_pg.append(impresion_post['data'][1]['values'][0]['value'])
+                        react.append(sum(insights['data'][0]['values'][0]['value'].values()))
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
+                    posteos['Reacciones'] = react
                     tp = []
                     for i in posteos['Alcance Pagado']:
                         if i == 0:
@@ -122,6 +125,7 @@ if user_long_token:
                         else:
                             tp.append("Pautado")
                     posteos["Tipo"] = tp
+
                     st.subheader("📋 Post asociadas a tu cuenta")
                     st.dataframe(posteos)
                 else:
@@ -130,6 +134,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

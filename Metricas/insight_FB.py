@@ -127,7 +127,7 @@ if user_long_token:
                     posteos["Tipo"] = tp
                     sh = []
                     for i in posteos['id']:
-                        shares = graph.get_object(id="107995615939743_1322902963197527",fields='shares')
+                        shares = graph.get_object(id=i,fields='shares')
                         sh.append(shares['shares']['count'])
                     posteos["Shares"] = sh
                     st.subheader("📋 Post asociadas a tu cuenta")
@@ -138,6 +138,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

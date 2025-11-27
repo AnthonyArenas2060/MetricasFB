@@ -118,6 +118,7 @@ if user_long_token:
                         react.append(sum(impresion_post['data'][2]['values'][0]['value'].values()))
                         
                         shar = graph.get_object(id=str(i),fields='shares')
+                        st.subheader(shar)
                         #sh.append(shar['shares']['count'])
                         
                     posteos['Alcance'] = imp
@@ -139,6 +140,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -188,9 +188,9 @@ if user_long_token:
                     
                     fig, ax = plt.subplots(figsize=(10, 5))
                     
-                    ax.bar(x - width, data["Reacciones"], width=width, label="Reacciones")
-                    ax.bar(x,         data["Comentarios"], width=width, label="Comentarios")
-                    ax.bar(x + width, data["Shares"], width=width, label="Shares")
+                    ax.bar(x - width, posteos["Reacciones"], width=width, label="Reacciones")
+                    ax.bar(x,         posteos["Comentarios"], width=width, label="Comentarios")
+                    ax.bar(x + width, posteos["Shares"], width=width, label="Shares")
                     
                     ax.set_xticks(x)
                     ax.set_xticklabels(posteos.index)
@@ -209,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

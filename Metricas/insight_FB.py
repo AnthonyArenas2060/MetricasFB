@@ -147,7 +147,18 @@ if user_long_token:
                     posteos["Tipo"] = tp    
                     posteos["Shares"] = sh
                     st.subheader("📋 Post asociadas a tu cuenta")
-                    st.dataframe(posteos)
+                    #st.dataframe(posteos)
+                    st.dataframe(
+                                posteos,
+                                column_config={
+                                    "Imagen": st.column_config.ImageColumn(
+                                        "Imagen",
+                                        help="Vista previa",
+                                        width="small"
+                                    )
+                                },
+                                use_container_width=True
+                            )
 
 
                     fans_city = graph.get_connections(id=page_id, connection_name = 'insights', metric = 'page_follows_city',
@@ -175,6 +186,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

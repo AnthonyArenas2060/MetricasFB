@@ -182,30 +182,25 @@ if user_long_token:
                         .properties(width=800, height=600)
                     )
 
-                    chart2 = (
-                        alt.Chart(posteos)
-                        .transform_fold(
-                            ["Reacciones", "Comentarios", "Shares"],
-                            as_=["Tipo", "Cantidad"]  # crea columnas Tipo y Cantidad dentro del transform
-                        )
-                        .mark_bar()
-                        .encode(
-                            x=alt.X("Post:N", title="Publicación"),
-                            y=alt.Y("Cantidad:Q", title="Cantidad"),          # 'Cantidad' es creada por transform_fold
-                            color=alt.Color("Tipo:N", title="Métrica"),
-                            xOffset="Tipo:N",
-                            tooltip=[
-                                alt.Tooltip("Post:N", title="Publicación"),
-                                alt.Tooltip("Tipo:N", title="Métrica"),
-                                alt.Tooltip("Cantidad:Q", title="Cantidad")
-                            ]
-                        )
-                        .properties(width=800, height=450)
-                    )
-
+                    n = len(posteos.index)
+                    x = np.arange(n)
+                    width = 0.25
+                    
+                    fig, ax = plt.subplots(figsize=(10, 5))
+                    
+                    ax.bar(x - width, data["Reacciones"], width=width, label="Reacciones")
+                    ax.bar(x,         data["Comentarios"], width=width, label="Comentarios")
+                    ax.bar(x + width, data["Shares"], width=width, label="Shares")
+                    
+                    ax.set_xticks(x)
+                    ax.set_xticklabels(posteos.index)
+                    ax.set_ylabel("Cantidad")
+                    ax.set_title("Comparación por País")
+                    ax.legend()
+                    
                     
                     st.altair_chart(chart)
-                    st.altair_chart(chart2)
+                    st.altair_chart(fig)
 
                 
                 else:
@@ -214,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

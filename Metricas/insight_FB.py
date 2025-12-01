@@ -114,11 +114,15 @@ if user_long_token:
                     sh = []
                     link = []
                     img = []
+                    com = []
                     for i in posteos['id']:
                         impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique,post_reactions_by_type_total')
+                        comments = graph.get_connections(id=str(i), connection_name="comments")
                         imp.append(impresion_post['data'][0]['values'][0]['value'])
                         imp_pg.append(impresion_post['data'][1]['values'][0]['value'])
                         react.append(sum(impresion_post['data'][2]['values'][0]['value'].values()))
+                        com.append(len(comments['data']))
+                        
                         try:
                             shar = graph.get_object(id=str(i),fields='shares')
                             sh.append(shar['shares']['count'])
@@ -144,8 +148,9 @@ if user_long_token:
                             tp.append("Organico")
                         else:
                             tp.append("Pautado")
-                    posteos["Tipo"] = tp    
+                    posteos["Comentarios"] = com        
                     posteos["Shares"] = sh
+                    posteos["Tipo"] = tp    
                     st.subheader("📋 Post asociadas a tu cuenta")
                     #st.dataframe(posteos)
                     st.dataframe(
@@ -186,6 +191,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -182,22 +182,27 @@ if user_long_token:
                         .properties(width=800, height=600)
                     )
 
-                    chart2 = (
+                    chart = (
                         alt.Chart(posteos)
                         .transform_fold(
                             ["Reacciones", "Comentarios", "Shares"],
-                            as_=["Tipo", "Cantidad"]
+                            as_=["Tipo", "Cantidad"]  # crea columnas Tipo y Cantidad dentro del transform
                         )
                         .mark_bar()
                         .encode(
-                            x=alt.X("id:N", title="Publicación"),
-                            y=alt.Y("Cantidad:Q", title="Cantidad"),
+                            x=alt.X("Post:N", title="Publicación"),
+                            y=alt.Y("Cantidad:Q", title="Cantidad"),          # 'Cantidad' es creada por transform_fold
                             color=alt.Color("Tipo:N", title="Métrica"),
-                            xOffset="Tipo:N",  # <-- hace las barras agrupadas
-                            tooltip=["id", "Tipo", "Cantidad"]
+                            xOffset="Tipo:N",
+                            tooltip=[
+                                alt.Tooltip("Post:N", title="Publicación"),
+                                alt.Tooltip("Tipo:N", title="Métrica"),
+                                alt.Tooltip("Cantidad:Q", title="Cantidad")
+                            ]
                         )
-                        .properties(width=800, height=500)
+                        .properties(width=800, height=450)
                     )
+
                     
                     st.altair_chart(chart)
                     st.altair_chart(chart2)
@@ -209,6 +214,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

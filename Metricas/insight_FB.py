@@ -182,7 +182,7 @@ if user_long_token:
                         .properties(width=800, height=600)
                     )
 
-                    chart = (
+                    chart2 = (
                         alt.Chart(posteos)
                         .transform_fold(
                             ["Reacciones", "Comentarios", "Shares"],
@@ -214,6 +214,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

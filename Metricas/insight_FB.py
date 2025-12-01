@@ -194,7 +194,7 @@ if user_long_token:
                             y=alt.Y("Cantidad:Q", title="Cantidad"),
                             color=alt.Color("Tipo:N", title="Métrica"),
                             xOffset="Tipo:N",  # <-- hace las barras agrupadas
-                            tooltip=["Post", "Tipo", "Cantidad"]
+                            tooltip=["id", "Tipo", "Cantidad"]
                         )
                         .properties(width=800, height=500)
                     )
@@ -209,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

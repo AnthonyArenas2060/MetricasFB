@@ -4,6 +4,7 @@ import facebook
 import requests
 import matplotlib.pyplot as plt
 import numpy as np
+import altair as alt
 
 
 
@@ -161,6 +162,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

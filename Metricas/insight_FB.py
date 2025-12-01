@@ -190,7 +190,7 @@ if user_long_token:
                         )
                         .mark_bar()
                         .encode(
-                            x=alt.X("Post:N", title="Publicación"),
+                            x=alt.X("id:N", title="Publicación"),
                             y=alt.Y("Cantidad:Q", title="Cantidad"),
                             color=alt.Color("Tipo:N", title="Métrica"),
                             xOffset="Tipo:N",  # <-- hace las barras agrupadas
@@ -209,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

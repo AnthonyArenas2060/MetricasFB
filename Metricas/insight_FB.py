@@ -200,7 +200,7 @@ if user_long_token:
                     
                     
                     st.altair_chart(chart)
-                    st.altair_chart(fig)
+                    st.pyplot(fig)
 
                 
                 else:
@@ -209,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

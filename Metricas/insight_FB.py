@@ -195,7 +195,7 @@ if user_long_token:
                     ax.set_xticks(x)
                     ax.set_xticklabels(posteos.index)
                     ax.set_ylabel("Cantidad")
-                    ax.set_title("Comparación por País")
+                    ax.set_title("Interacciones Públicas")
                     ax.legend()
                     
                     
@@ -209,6 +209,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

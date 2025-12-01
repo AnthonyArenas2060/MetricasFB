@@ -141,11 +141,18 @@ if user_long_token:
                     fans_city_df = pd.DataFrame.from_dict(fans_city['data'][0]['values'][0]['value'], orient = 'index')
                     fans_city_df.reset_index(inplace=True)
                     fans_city_df.rename(columns={'index': 'Ciudad', 0: 'Cantidad'}, inplace=True)
-                    st.bar_chart(
-                                fans_city_df['Ciudad'],
-                                y_label='Cantidad',
-                                use_container_width=True
-                            )
+                    chart = (
+                        alt.Chart(fans_city_df)
+                        .mark_bar()
+                        .encode(
+                            x=alt.X("Cantidad:Q", title="Cantidad"),
+                            y=alt.Y("Ciudad:N", sort='-x', title="Ciudad"),
+                            tooltip=["Ciudad", "Cantidad"]
+                        )
+                        .properties(width=800, height=600)
+                    )
+                    
+                    st.altair_chart(chart)
 
                 
                 else:
@@ -154,6 +161,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

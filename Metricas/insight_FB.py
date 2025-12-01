@@ -137,7 +137,7 @@ if user_long_token:
                     st.dataframe(posteos)
 
                     fans_city = graph.get_connections(id=page_id, connection_name = 'insights', metric = 'page_follows_city',
-                                  since = '2025-07-01', until = '2025-07-31')
+                                   since = date_ini, until = date_fin)
                     fans_city_df = pd.DataFrame.from_dict(fans_city['data'][0]['values'][0]['value'], orient = 'index')
                     fans_city_df.reset_index(inplace=True)
                     fans_city_df.rename(columns={'index': 'Ciudad', 0: 'Cantidad'}, inplace=True)
@@ -154,6 +154,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

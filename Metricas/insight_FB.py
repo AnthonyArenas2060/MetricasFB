@@ -182,25 +182,18 @@ if user_long_token:
                         .properties(width=800, height=600)
                     )
 
-                    n = len(posteos.index)
-                    x = np.arange(n)
-                    width = 0.25
-                    
-                    fig, ax = plt.subplots(figsize=(10, 5))
-                    
-                    ax.bar(x - width, posteos["Reacciones"], width=width, label="Reacciones")
-                    ax.bar(x,         posteos["Comentarios"], width=width, label="Comentarios")
-                    ax.bar(x + width, posteos["Shares"], width=width, label="Shares")
-                    
-                    ax.set_xticks(x)
-                    ax.set_xticklabels(posteos.index)
-                    ax.set_ylabel("Cantidad")
-                    ax.set_title("Interacciones Públicas")
-                    ax.legend()
-                    
+                                       
                     
                     st.altair_chart(chart)
-                    st.pyplot(fig)
+                    
+                    try:
+                        ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
+
+                        ig_user_id = ig_account['instagram_business_account']['id']
+                        media = graph.get_object(f"{ig_user_id}/media?fields=id,caption,media_type,media_url,timestamp&limit=1000")
+                        ig_content = pd.DataFrame(media['data'])
+                        st.dataframe(ig_content)
+                    
 
                 
                 else:
@@ -209,6 +202,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

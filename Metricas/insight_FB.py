@@ -71,7 +71,7 @@ if user_long_token:
                 graph.get_object(id=page_id, fields='name')
 
                 try:
-                ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
+                    ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
         
                 # Validar que exista la clave
                     if "instagram_business_account" not in ig_account:
@@ -216,6 +216,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

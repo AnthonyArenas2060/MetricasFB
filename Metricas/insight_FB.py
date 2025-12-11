@@ -66,15 +66,16 @@ if user_long_token:
                 st.write(info['name'][indice])
                 permanent_page_token = page_data['data'][indice]['access_token']
                 page_id = page_data['data'][indice]['id']
+
+                graph = facebook.GraphAPI(access_token=permanent_page_token, version=3.1)
+                graph.get_object(id=page_id, fields='name')
+
                 try:
                     ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
                     ig_user_id = ig_account['instagram_business_account']['id']
                     media = graph.get_object(f"{ig_user_id}/media?fields=id,caption,media_type,media_url,timestamp&limit=1000")
                     ig_content = pd.DataFrame(media['data'])
                     st.dataframe(ig_content)
-
-                graph = facebook.GraphAPI(access_token=permanent_page_token, version=3.1)
-                graph.get_object(id=page_id, fields='name')
 
                 #fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
                 follow = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_follows', since = date_ini, until = date_fin)
@@ -202,6 +203,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

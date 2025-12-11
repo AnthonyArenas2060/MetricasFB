@@ -205,6 +205,7 @@ if user_long_token:
                                        
                     
                     st.altair_chart(chart)
+                    st.subheader("Instagram")
                     st.dataframe(ig_content)
 
                     
@@ -216,6 +217,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

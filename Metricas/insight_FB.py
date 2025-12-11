@@ -213,7 +213,7 @@ if user_long_token:
                     ig_content_filtrado = ig_content[(ig_content["timestamp"] >= date_ini2) & (ig_content["timestamp"] <= date_fin2)]
                     filas = []   # Lista que almacenará un diccionario por post
 
-                    for media_id in ig_content_filtrado:
+                    for media_id in ig_content_filtrado["id"]:
                     
                         metrics = graph.get_object(
                             f"{media_id}/insights?metric=reach,likes,comments,saved"
@@ -240,6 +240,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

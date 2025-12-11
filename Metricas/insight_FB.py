@@ -208,25 +208,19 @@ if user_long_token:
                     st.subheader("Instagram")
                     ig_content["timestamp"] = pd.to_datetime(ig_content["timestamp"], errors="coerce").dt.date
                     ig_content = ig_content.dropna(subset=["timestamp"])
-                    date_ini2 = st.date_input("Selecciona la fecha inicial")
-                    date_fin2 = st.date_input("Selecciona la fecha final")
+                    date_ini2 = st.date_input("Selecciona la fecha inicial", key="fecha_ini_ig")
+                    date_fin2 = st.date_input("Selecciona la fecha final", key="fecha_fin_ig")
                     ig_content_filtrado = ig_content[(ig_content["timestamp"] >= date_ini2) & (ig_content["timestamp"] <= date_fin2)]
                     st.dataframe(ig_content_filtrado)
 
-                
 
-
-                    
-
-                    
-
-                
                 else:
                     st.write("No se encontraron publicaciones en el rango de fechas seleccionado.")
 
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -216,7 +216,7 @@ if user_long_token:
                     for media_id in ig_content_filtrado["id"]:
                     
                         metrics = graph.get_object(
-                            f"{media_id}/insights?metric=reach,likes,comments,saved"
+                            f"{media_id}/insights?metric=reach,likes,comments,saved, total_interactions"
                         )
                         
                         fila = {"id": media_id}   # Nueva fila para este post
@@ -250,6 +250,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

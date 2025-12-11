@@ -211,7 +211,27 @@ if user_long_token:
                     date_ini2 = st.date_input("Selecciona la fecha inicial", key="fecha_ini_ig")
                     date_fin2 = st.date_input("Selecciona la fecha final", key="fecha_fin_ig")
                     ig_content_filtrado = ig_content[(ig_content["timestamp"] >= date_ini2) & (ig_content["timestamp"] <= date_fin2)]
-                    st.dataframe(ig_content_filtrado)
+                    filas = []   # Lista que almacenará un diccionario por post
+
+                    for media_id in ig_content_filtrado:
+                    
+                        metrics = graph.get_object(
+                            f"{media_id}/insights?metric=reach,likes,comments,saved"
+                        )
+                        
+                        fila = {"id": media_id}   # Nueva fila para este post
+                    
+                        for item in metrics["data"]:
+                            nombre = item["name"]
+                            valor = item["values"][0]["value"]
+                            fila[nombre] = valor
+                        
+                        filas.append(fila)   # Agregamos la fila de este post a la lista
+                    
+                    
+                    ig_mets = pd.DataFrame(filas)
+                    df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
+                    st.dataframe(df_unido)
 
 
                 else:
@@ -220,6 +240,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

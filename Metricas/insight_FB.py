@@ -231,8 +231,18 @@ if user_long_token:
                     
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
-                    st.dataframe(df_unido)
-
+                    #st.dataframe(df_unido)
+                    st.dataframe(
+                                df_unido,
+                                column_config={
+                                    "Imagen": st.column_config.ImageColumn(
+                                        "media_url",
+                                        help="Vista previa",
+                                        width="small"
+                                    )
+                                },
+                                use_container_width=True
+                            )
 
                 else:
                     st.write("No se encontraron publicaciones en el rango de fechas seleccionado.")
@@ -240,6 +250,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

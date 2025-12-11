@@ -71,11 +71,24 @@ if user_long_token:
                 graph.get_object(id=page_id, fields='name')
 
                 try:
-                    ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
-                    ig_user_id = ig_account['instagram_business_account']['id']
-                    media = graph.get_object(f"{ig_user_id}/media?fields=id,caption,media_type,media_url,timestamp&limit=1000")
-                    ig_content = pd.DataFrame(media['data'])
-                    st.dataframe(ig_content)
+                ig_account = graph.get_object(f"{page_id}?fields=instagram_business_account")
+        
+                # Validar que exista la clave
+                    if "instagram_business_account" not in ig_account:
+                        st.error("❌ Esta página no tiene una cuenta de Instagram profesional vinculada.")
+                    else:
+                        ig_user_id = ig_account["instagram_business_account"]["id"]
+            
+                        media = graph.get_object(
+                            f"{ig_user_id}/media?fields=id,caption,media_type,media_url,timestamp&limit=100"
+                        )
+            
+                        ig_content = pd.DataFrame(media.get("data", []))
+                        st.dataframe(ig_content)
+            
+                except facebook.GraphAPIError as e:
+                    st.error(f"❌ Error de Graph API: {e}")
+
 
                 #fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
                 follow = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_follows', since = date_ini, until = date_fin)
@@ -203,6 +216,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

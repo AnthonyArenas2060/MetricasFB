@@ -231,6 +231,7 @@ if user_long_token:
                     
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
+                    df_unido["ER (%)"]=df_unido["total_interactions"]/df_unido["reach"] *100
                     #st.dataframe(df_unido)
                     st.dataframe(
                                 df_unido,
@@ -250,6 +251,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

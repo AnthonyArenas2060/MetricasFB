@@ -235,7 +235,7 @@ if user_long_token:
                     st.dataframe(
                                 df_unido,
                                 column_config={
-                                    "Imagen": st.column_config.ImageColumn(
+                                    "media_url": st.column_config.ImageColumn(
                                         "media_url",
                                         help="Vista previa",
                                         width="small"
@@ -250,6 +250,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

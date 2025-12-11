@@ -84,7 +84,7 @@ if user_long_token:
                         )
             
                         ig_content = pd.DataFrame(media.get("data", []))
-                        st.dataframe(ig_content)
+                        
             
                 except facebook.GraphAPIError as e:
                     st.error(f"❌ Error de Graph API: {e}")
@@ -205,7 +205,7 @@ if user_long_token:
                                        
                     
                     st.altair_chart(chart)
-                    
+                    st.dataframe(ig_content)
 
                     
 
@@ -216,6 +216,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

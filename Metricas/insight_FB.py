@@ -206,7 +206,12 @@ if user_long_token:
                     
                     st.altair_chart(chart)
                     st.subheader("Instagram")
-                    st.dataframe(ig_content)
+                    ig_content["timestamp"] = pd.to_datetime(ig_content["timestamp"]).dt.date
+                    date_ini2 = st.date_input("Selecciona la fecha inicial")
+                    date_fin2 = st.date_input("Selecciona la fecha final")
+                    ig_content_filtrado = ig_content[(ig_content["timestamp"] >= start_date) & (ig_content["timestamp"] <= end_date)]
+                    st.dataframe(ig_content_filtrado)
+                    
 
                     
 
@@ -217,6 +222,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

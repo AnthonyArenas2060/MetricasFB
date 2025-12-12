@@ -248,17 +248,17 @@ if user_long_token:
                     posteos["texto"] = lista_limpia
 
                     st.subheader("📋 Post asociadas a tu cuenta")
-                    st.dataframe(posteos)
-                    #st.dataframe(posteos,
-                    #            column_config={
-                    #                "Imagen": st.column_config.ImageColumn(
-                    #                    "Imagen",
-                    #                    help="Vista previa",
-                    #                    width="small"
-                    #                )
-                    #            },
-                    #            use_container_width=True
-                    #        )
+                    #st.dataframe(posteos)
+                    st.dataframe(posteos,
+                                column_config={
+                                    "Imagen": st.column_config.ImageColumn(
+                                        "Imagen",
+                                        help="Vista previa",
+                                        width="small"
+                                    )
+                                },
+                                use_container_width=True
+                            )
 
                     #print(resultado_bool)
 
@@ -327,6 +327,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

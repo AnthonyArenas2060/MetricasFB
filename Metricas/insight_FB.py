@@ -304,6 +304,67 @@ if user_long_token:
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
                     df_unido["ER (%)"]=df_unido["total_interactions"]/df_unido["reach"] *100
+                    
+                    if indice == 13:
+                        genai.configure(api_key="AIzaSyCwNTjQZNA6cu5gmq_iS_I_l2HQThB07zs")
+                        model = genai.GenerativeModel("gemini-2.5-flash")
+                    
+                        url_imagenes2 = df_unido["media_url"].tolist()
+                        caption2 = []
+                        for url_imagen in url_imagenes2:
+                            try:
+                                print("⏳ Descargando imagen...")
+                    
+                                resp = requests.get(url_imagen)
+                    
+                                if resp.status_code == 200:
+                                    img = Image.open(io.BytesIO(resp.content))
+                    
+                                    # Prompt más fuerte y explícito
+                                    prompt = (
+                                        "Extrae TODO el texto visible en la imagen. "
+                                        "Devuélvelo sin comentarios, sin análisis y sin explicaciones. "
+                                        "Solo texto plano."
+                                    )
+                    
+                                    response = model.generate_content([prompt, img])
+                    
+                                    text = response.text if response.text else ""
+                                    caption2.append(text)
+                    
+                                else:
+                                    caption2.append("")  # evita listas vacías
+                    
+                            except Exception as e:
+                                print(f"❌ Error: {e}")
+                                caption2.append("")  # evita romper dimensiones
+                    
+                        # ---- LIMPIEZA ----
+                        lista_limpia2 = []
+                        for s in caption2:
+                            if s is None:
+                                s = ""
+                            s = s.replace("\n", " ")
+                            s = s.strip()
+                            lista_limpia2.append(s)
+                    
+                        patron = r"h\s*y\s*p\s*e"
+                    
+                        resultado_bool = [
+                            bool(re.search(patron, s, flags=re.IGNORECASE))
+                            for s in lista_limpia2
+                        ]
+                    
+                        # ---- CLASIFICACION ----
+                        if len(resultado_bool) == len(df_unido["Imagen"]):
+                            cate2 = ["Feel the hype" if x else "N/A" for x in resultado_bool]
+                        else:
+                            cate2 = ["N/A"] * len(df_unido["Imagen"])
+                    
+                    df_unido["Categoria"] = cate2
+                    df_unido["texto"] = lista_limpia2
+
+                    
                     #st.dataframe(df_unido)
                     st.dataframe(
                                 df_unido,
@@ -323,6 +384,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

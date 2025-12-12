@@ -455,8 +455,8 @@ if user_long_token:
                         })
                     
                         # Nueva columna: comparación
-                        df_comp["Comparación (P1 / P2)"] = (
-                            (df_comp["Post 1"] / df_comp["Post 2"] - 1) * 100
+                        df_comp["Comparación (P2 / P1 - 1) (%)"] = (
+                            (df_comp["Post 2"] / df_comp["Post 1"] - 1) * 100
                         ).round(2)
                     
                         st.subheader("📊 Comparación de Métricas")
@@ -469,6 +469,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

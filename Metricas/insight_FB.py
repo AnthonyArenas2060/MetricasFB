@@ -186,6 +186,7 @@ if user_long_token:
                         ipubl = posteos['Shares'][i] + posteos['Comentarios'][i] + posteos['Reacciones'][i]
                         interpubli.append(ipubl)
                     posteos["Interacciones Publicas"] = interpubli
+                    posteos["ER (%)"]=posteos["Interacciones Publicas"]/posteos["Alcance"] *100
                     posteos["Tipo"] = tp  
                     
                     cate = ["N/A"] * len(posteos["Imagen"])
@@ -448,7 +449,7 @@ if user_long_token:
                         # Extraer métricas relevantes
                         columnas_metricas = [
                             "Alcance", "Interacciones Publicas", "Views", "Reacciones",
-                            "Comentarios", "Shares"
+                            "Comentarios", "Shares", "ER (%)"
                         ]
                     
                         df_comp = pd.DataFrame({
@@ -514,6 +515,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

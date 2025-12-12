@@ -375,13 +375,13 @@ if user_long_token:
                                     caption.append("")  # evita romper dimensiones
                         
                             # ---- LIMPIEZA ----
-                            lista_limpia = []
+                            lista_limpia2 = []
                             for s in caption:
                                 if s is None:
                                     s = ""
                                 s = s.replace("\n", " ")
                                 s = s.strip()
-                                lista_limpia.append(s)
+                                lista_limpia2.append(s)
                         
                         
                             # ---- REGEX MÁS ROBUSTO ----
@@ -391,19 +391,21 @@ if user_long_token:
                         
                             resultado_bool = [
                                 bool(re.search(patron, s, flags=re.IGNORECASE))
-                                for s in lista_limpia
+                                for s in lista_limpia2
                             ]
                         
                             # ---- CLASIFICACION ----
                             if len(resultado_bool) == len(df_unido["media_url"]):
-                                cate = ["Feel the hype" if x else "N/A" for x in resultado_bool]
+                                cate2 = ["Feel the hype" if x else "N/A" for x in resultado_bool]
                             else:
-                                cate = ["N/A"] * len(df_unido["media_url"])
+                                cate2 = ["N/A"] * len(df_unido["media_url"])
                         else:
-                            lista_limpia = ["N/A"] * len(df_unido["media_url"]) 
+                            lista_limpia2 = ["N/A"] * len(df_unido["media_url"]) 
                     else:
-                        lista_limpia = ["N/A"] * len(df_unido["media_url"])
-                    
+                        lista_limpia2 = ["N/A"] * len(df_unido["media_url"])
+                        
+                    df_unido["Categoria"] = cate2
+                    df_unido["texto"] = lista_limpia2
                     #st.dataframe(df_unido)
                     st.dataframe(
                                 df_unido,
@@ -423,6 +425,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

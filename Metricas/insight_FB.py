@@ -356,10 +356,10 @@ if user_long_token:
                         ]
                     
                         # ---- CLASIFICACION ----
-                        if len(resultado_bool) == len(df_unido["Imagen"]):
+                        if len(resultado_bool) == len(df_unido["media_url"]):
                             cate2 = ["Feel the hype" if x else "N/A" for x in resultado_bool]
                         else:
-                            cate2 = ["N/A"] * len(df_unido["Imagen"])
+                            cate2 = ["N/A"] * len(df_unido["media_url"])
                     
                     df_unido["Categoria"] = cate2
                     df_unido["texto"] = lista_limpia2
@@ -384,6 +384,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -5,12 +5,15 @@ import requests
 import matplotlib.pyplot as plt
 import numpy as np
 import altair as alt
-import google.generativeai as genai
+#import google.generativeai as genai
 from PIL import Image
 import requests 
 import io       
 import re
 
+import importlib
+
+genai = importlib.import_module("google.generativeai")
 
 
 
@@ -303,6 +306,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

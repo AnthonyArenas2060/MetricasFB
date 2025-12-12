@@ -178,21 +178,8 @@ if user_long_token:
                             tp.append("Pautado")
                     posteos["Comentarios"] = com        
                     posteos["Shares"] = sh
-                    posteos["Tipo"] = tp    
-                    st.subheader("📋 Post asociadas a tu cuenta")
-                    #st.dataframe(posteos)
-                    st.dataframe(
-                                posteos,
-                                column_config={
-                                    "Imagen": st.column_config.ImageColumn(
-                                        "Imagen",
-                                        help="Vista previa",
-                                        width="small"
-                                    )
-                                },
-                                use_container_width=True
-                            )
-                    cate = ["N/A"] * len(posteos)
+                    posteos["Tipo"] = tp  
+
 
                     if indice == 13:
                         genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
@@ -241,6 +228,22 @@ if user_long_token:
                             else:
                                 cate.append("N/A")
                     posteos["Categoria"] = cate
+                    
+                    st.subheader("📋 Post asociadas a tu cuenta")
+                    #st.dataframe(posteos)
+                    st.dataframe(
+                                posteos,
+                                column_config={
+                                    "Imagen": st.column_config.ImageColumn(
+                                        "Imagen",
+                                        help="Vista previa",
+                                        width="small"
+                                    )
+                                },
+                                use_container_width=True
+                            )
+                    cate = ["N/A"] * len(posteos)
+
                     #print(resultado_bool)
 
                     fans_city = graph.get_connections(id=page_id, connection_name = 'insights', metric = 'page_follows_city',
@@ -306,6 +309,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

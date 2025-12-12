@@ -181,49 +181,70 @@ if user_long_token:
                     posteos["Tipo"] = tp  
 
                     cate = ["N/A"] * len(posteos["Imagen"])
+                    
                     if indice == 13:
                         genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
                         model = genai.GenerativeModel("gemini-2.5-flash")
+                    
                         url_imagenes = posteos["Imagen"]
-                        
+                    
                         caption = []
                         for url_imagen in url_imagenes:
                             try:
                                 print("⏳ Descargando imagen...")
-                                
-                                respuesta_http = requests.get(url_imagen)
-                                
-                                if respuesta_http.status_code == 200:
-                                    
-                                    img = Image.open(io.BytesIO(respuesta_http.content))
-                        
-                                    # 5. Enviamos a Gemini
-                                    prompt = "Da el texto que tenga la imagen, solo el texto, no digas nada mas."
-                                    #print("👀 Analizando con Gemini...")
-                                    
+                    
+                                resp = requests.get(url_imagen, timeout=10)
+                    
+                                if resp.status_code == 200:
+                                    img = Image.open(io.BytesIO(resp.content))
+                    
+                                    # Prompt más fuerte y explícito
+                                    prompt = (
+                                        "Extrae TODO el texto visible en la imagen. "
+                                        "Devuélvelo sin comentarios, sin análisis y sin explicaciones. "
+                                        "Solo texto plano."
+                                    )
+                    
                                     response = model.generate_content([prompt, img])
-                                    #print("\n📝 Respuesta:")
-                                    #print(response.text)
-                                    caption.append(response.text)
-                                    
+                    
+                                    text = response.text if response.text else ""
+                                    caption.append(text)
+                    
                                 else:
-                                    print("❌ Error al descargar la imagen. Código:", respuesta_http.status_code)
-                        
+                                    caption.append("")  # evita listas vacías
+                    
                             except Exception as e:
                                 print(f"❌ Error: {e}")
-                        
-                        lista_limpia = [s.replace("\n", " ") for s in caption]
-                        #print(lista_limpia)
-                        
-                        
-                        flags = re.IGNORECASE
-                        resultado_bool = [bool(re.search(r"\bhype\b", s, flags)) for s in lista_limpia]
+                                caption.append("")  # evita romper dimensiones
+                    
+                        # ---- LIMPIEZA ----
+                        lista_limpia = []
+                        for s in caption:
+                            if s is None:
+                                s = ""
+                            s = s.replace("\n", " ")
+                            s = s.strip()
+                            lista_limpia.append(s)
+                    
+                    
+                        # ---- REGEX MÁS ROBUSTO ----
+                        # Detecta hype, HYPE, H y p e, hype., hype!,
+                        # hype con tipografías rotas o separada con espacios
+                        patron = r"h\s*y\s*p\s*e"
+                    
+                        resultado_bool = [
+                            bool(re.search(patron, s, flags=re.IGNORECASE))
+                            for s in lista_limpia
+                        ]
+                    
+                        # ---- CLASIFICACION ----
                         if len(resultado_bool) == len(posteos["Imagen"]):
-                            cate = ["Feel the hype" if i else "N/A" for i in resultado_bool]
+                            cate = ["Feel the hype" if x else "N/A" for x in resultado_bool]
                         else:
                             cate = ["N/A"] * len(posteos["Imagen"])
-                    posteos["Categoria"] = cate
                     
+                    posteos["Categoria"] = cate
+
                     st.subheader("📋 Post asociadas a tu cuenta")
                     #st.dataframe(posteos)
                     st.dataframe(
@@ -303,6 +324,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -447,7 +447,7 @@ if user_long_token:
                     
                         # Extraer métricas relevantes
                         columnas_metricas = [
-                            "Alcance", "Interacciones Publicas", "Reacciones",
+                            "Alcance", "Interacciones Publicas", "Views", "Reacciones",
                             "Comentarios", "Shares"
                         ]
                     
@@ -472,6 +472,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

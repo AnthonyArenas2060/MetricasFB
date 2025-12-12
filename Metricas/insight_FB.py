@@ -185,7 +185,15 @@ if user_long_token:
                     if indice == 13:
                         api_token = st.text_input("Introduce tu API Key:", type="password")
                         genai.configure(api_key=api_token)
-                        model = genai.GenerativeModel("gemini-2.5-flash")
+                        st.title("Selector de modelo")
+
+                        modelo = st.selectbox(
+                            "Selecciona el modelo:",
+                            ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
+                        )
+                        
+                        st.write("Modelo seleccionado:", modelo)
+                        model = genai.GenerativeModel(modelo)
                     
                         url_imagenes = posteos["Imagen"].tolist()
                         caption = []
@@ -328,6 +336,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -328,7 +328,7 @@ if user_long_token:
                         "¿Quieres que se haga un análisis del texto de las imágenes de IG?",
                         ["Sí", "No"], key="analisis_imagen_ig"
                     )
-                    
+                    cate2 = ["N/A"] * len(df_unido["media_url"])
                     st.write("Seleccionaste:", analisis_imagen2)
                     if analisis_imagen2 == "Sí":
                         if indice == 13:
@@ -464,6 +464,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

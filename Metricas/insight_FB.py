@@ -178,6 +178,11 @@ if user_long_token:
                             tp.append("Pautado")
                     posteos["Comentarios"] = com        
                     posteos["Shares"] = sh
+                    interpubli = []
+                    for i in range(len(posteos["Shares"])):
+                        ipubl = posteos['Shares'][i] + posteos['Comentarios'][i] + posteos['Reacciones'][i]
+                        interpubli.append(ipubl)
+                    posteos["Interacciones Publicas"] = interpubli
                     posteos["Tipo"] = tp  
                     
                     cate = ["N/A"] * len(posteos["Imagen"])
@@ -464,6 +469,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

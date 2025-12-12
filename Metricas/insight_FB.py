@@ -419,12 +419,52 @@ if user_long_token:
                                 use_container_width=True
                             )
 
+                # ============================
+                    # 🔽 Selección de Posteos
+                    # ============================
+                    
+                    st.subheader("📌 Selecciona dos posteos para comparar de FB")
+                    
+                    # Lista de IDs
+                    post_ids = posteos["id"].tolist()
+                    
+                    post1 = st.selectbox("Selecciona Post 1:", post_ids, key="post1")
+                    post2 = st.selectbox("Selecciona Post 2:", post_ids, key="post2")
+                    
+                    if post1 and post2 and post1 != post2:
+                    
+                        # Filtrar cada posteo
+                        p1 = posteos[posteos["id"] == post1].iloc[0]
+                        p2 = posteos[posteos["id"] == post2].iloc[0]
+                    
+                        # Extraer métricas relevantes
+                        columnas_metricas = [
+                            "Alcance", "Interacciones Publicas", "Reacciones",
+                            "Comentarios", "Shares"
+                        ]
+                    
+                        df_comp = pd.DataFrame({
+                            "Métrica": columnas_metricas,
+                            "Post 1": [p1[col] for col in columnas_metricas],
+                            "Post 2": [p2[col] for col in columnas_metricas],
+                        })
+                    
+                        # Nueva columna: comparación
+                        df_comp["Comparación (P1 / P2)"] = (
+                            (df_comp["Post 1"] / df_comp["Post 2"] - 1) * 100
+                        ).round(2)
+                    
+                        st.subheader("📊 Comparación de Métricas")
+                        st.dataframe(df_comp)
+                    
+
                 else:
                     st.write("No se encontraron publicaciones en el rango de fechas seleccionado.")
 
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

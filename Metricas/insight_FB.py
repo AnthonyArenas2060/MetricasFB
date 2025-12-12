@@ -332,13 +332,13 @@ if user_long_token:
                     st.write("Seleccionaste:", analisis_imagen2)
                     if analisis_imagen2 == "Sí":
                         if indice == 13:
-                            api_token = st.text_input("Introduce tu API Key:", type="password")
+                            api_token = st.text_input("Introduce tu API Key:", type="password", key="api_ig")
                             genai.configure(api_key=api_token)
                             st.title("Selector de modelo")
     
                             modelo = st.selectbox(
                                 "Selecciona el modelo:",
-                                ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
+                                ["gemini-2.5-flash", "gemini-2.5-flash-lite"], key="modelo_ig"
                             )
                             
                             st.write("Modelo seleccionado:", modelo)
@@ -423,6 +423,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

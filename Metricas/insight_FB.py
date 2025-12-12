@@ -167,7 +167,6 @@ if user_long_token:
                             
                     posteos['Link'] = link         
                     posteos['Imagen'] = img  
-                    posteos["Imagen2"] = posteos["Imagen"].apply(lambda x: f'"{x}"')
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
                     posteos['Reacciones'] = react
@@ -184,7 +183,7 @@ if user_long_token:
                     cate = ["N/A"] * len(posteos["Imagen"])
                     
                     if indice == 13:
-                        genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
+                        genai.configure(api_key="AIzaSyCwNTjQZNA6cu5gmq_iS_I_l2HQThB07zs")
                         model = genai.GenerativeModel("gemini-2.5-flash")
                     
                         url_imagenes = posteos["Imagen"].tolist()
@@ -194,7 +193,7 @@ if user_long_token:
                             try:
                                 print("⏳ Descargando imagen...")
                     
-                                resp = requests.get(url_imagen, timeout=10)
+                                resp = requests.get(url_imagen)
                     
                                 if resp.status_code == 200:
                                     img = Image.open(io.BytesIO(resp.content))
@@ -325,6 +324,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

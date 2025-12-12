@@ -258,8 +258,10 @@ if user_long_token:
                             else:
                                 cate = ["N/A"] * len(posteos["Imagen"])
                         else:
-                            lista_limpia = ["N/A"] * len(posteos["Imagen"])                      
-                        
+                            lista_limpia = ["N/A"] * len(posteos["Imagen"]) 
+                    else:
+                        lista_limpia = ["N/A"] * len(posteos["Imagen"])
+                             
                     posteos["Categoria"] = cate
                     posteos["texto"] = lista_limpia
 
@@ -343,6 +345,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

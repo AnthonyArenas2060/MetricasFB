@@ -188,7 +188,7 @@ if user_long_token:
                         model = genai.GenerativeModel("gemini-2.5-flash")
                     
                         url_imagenes = posteos["Imagen2"].tolist()
-                    
+                        st.subheader(url_imagenes)
                         caption = []
                         for url_imagen in url_imagenes:
                             try:
@@ -325,6 +325,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

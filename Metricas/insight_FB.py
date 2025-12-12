@@ -326,7 +326,7 @@ if user_long_token:
                     df_unido["ER (%)"]=df_unido["total_interactions"]/df_unido["reach"] *100
                     analisis_imagen2 = st.radio(
                         "¿Quieres que se haga un análisis del texto de las imágenes de IG?",
-                        ["Sí", "No"]
+                        ["Sí", "No"], key="analisis_imagen_ig"
                     )
                     
                     st.write("Seleccionaste:", analisis_imagen2)
@@ -423,6 +423,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

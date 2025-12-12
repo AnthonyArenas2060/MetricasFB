@@ -244,6 +244,7 @@ if user_long_token:
                             cate = ["N/A"] * len(posteos["Imagen"])
                     
                     posteos["Categoria"] = cate
+                    posteos["texto"] = lista_limpia
 
                     st.subheader("📋 Post asociadas a tu cuenta")
                     #st.dataframe(posteos)
@@ -324,6 +325,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

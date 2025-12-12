@@ -324,7 +324,85 @@ if user_long_token:
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
                     df_unido["ER (%)"]=df_unido["total_interactions"]/df_unido["reach"] *100
-
+                    analisis_imagen2 = st.radio(
+                        "¿Quieres que se haga un análisis del texto de las imágenes de IG?",
+                        ["Sí", "No"]
+                    )
+                    
+                    st.write("Seleccionaste:", analisis_imagen2)
+                    if analisis_imagen2 == "Sí":
+                        if indice == 13:
+                            api_token = st.text_input("Introduce tu API Key:", type="password")
+                            genai.configure(api_key=api_token)
+                            st.title("Selector de modelo")
+    
+                            modelo = st.selectbox(
+                                "Selecciona el modelo:",
+                                ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
+                            )
+                            
+                            st.write("Modelo seleccionado:", modelo)
+                            model = genai.GenerativeModel(modelo)
+                        
+                            url_imagenes = df_unido["media_url"].tolist()
+                            caption = []
+                            for url_imagen in url_imagenes:
+                                try:
+                                    print("⏳ Descargando imagen...")
+                        
+                                    resp = requests.get(url_imagen)
+                        
+                                    if resp.status_code == 200:
+                                        img = Image.open(io.BytesIO(resp.content))
+                        
+                                        # Prompt más fuerte y explícito
+                                        prompt = (
+                                            "Extrae TODO el texto visible en la imagen. "
+                                            "Devuélvelo sin comentarios, sin análisis y sin explicaciones. "
+                                            "Solo texto plano."
+                                        )
+                        
+                                        response = model.generate_content([prompt, img])
+                        
+                                        text = response.text if response.text else ""
+                                        caption.append(text)
+                        
+                                    else:
+                                        caption.append("")  # evita listas vacías
+                        
+                                except Exception as e:
+                                    print(f"❌ Error: {e}")
+                                    caption.append("")  # evita romper dimensiones
+                        
+                            # ---- LIMPIEZA ----
+                            lista_limpia = []
+                            for s in caption:
+                                if s is None:
+                                    s = ""
+                                s = s.replace("\n", " ")
+                                s = s.strip()
+                                lista_limpia.append(s)
+                        
+                        
+                            # ---- REGEX MÁS ROBUSTO ----
+                            # Detecta hype, HYPE, H y p e, hype., hype!,
+                            # hype con tipografías rotas o separada con espacios
+                            patron = r"h\s*y\s*p\s*e"
+                        
+                            resultado_bool = [
+                                bool(re.search(patron, s, flags=re.IGNORECASE))
+                                for s in lista_limpia
+                            ]
+                        
+                            # ---- CLASIFICACION ----
+                            if len(resultado_bool) == len(df_unido["media_url"]):
+                                cate = ["Feel the hype" if x else "N/A" for x in resultado_bool]
+                            else:
+                                cate = ["N/A"] * len(df_unido["media_url"])
+                        else:
+                            lista_limpia = ["N/A"] * len(df_unido["media_url"]) 
+                    else:
+                        lista_limpia = ["N/A"] * len(df_unido["media_url"])
                     
                     #st.dataframe(df_unido)
                     st.dataframe(
@@ -345,6 +423,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

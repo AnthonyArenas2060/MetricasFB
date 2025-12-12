@@ -166,7 +166,8 @@ if user_long_token:
                             img.append('-')
                             
                     posteos['Link'] = link         
-                    posteos['Imagen'] = img        
+                    posteos['Imagen'] = img  
+                    posteos["Imagen2"] = posteos["Imagen"].apply(lambda lista: "[" + ", ".join(f'"{url}"' for url in lista) + "]")
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
                     posteos['Reacciones'] = react
@@ -324,6 +325,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

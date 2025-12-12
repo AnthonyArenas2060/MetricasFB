@@ -316,7 +316,7 @@ if user_long_token:
                     for media_id in ig_content_filtrado["id"]:
                     
                         metrics = graph.get_object(
-                            f"{media_id}/insights?metric=reach,likes,comments,saved, total_interactions"
+                            f"{media_id}/insights?metric=reach,likes,comments,saved, total_interactions, shares"
                         )
                         
                         fila = {"id": media_id}   # Nueva fila para este post
@@ -427,7 +427,7 @@ if user_long_token:
                                 use_container_width=True
                             )
 
-                # ============================
+                    # ============================
                     # 🔽 Selección de Posteos
                     # ============================
                     
@@ -462,9 +462,51 @@ if user_long_token:
                             (df_comp["Post 2"] / df_comp["Post 1"] - 1) * 100
                         ).round(2)
                     
-                        st.subheader("📊 Comparación de Métricas")
+                        st.subheader("Comparación de Métricas de FB")
                         st.dataframe(df_comp)
+
+                 # ============================
+                    # 🔽 Selección de Posteos
+                    # ============================
                     
+                    st.subheader("📌 Selecciona dos posteos para comparar de IG")
+                    
+                    # Lista de IDs
+                    post_ids2 = df_unido["id"].tolist()
+                    
+                    post1ig = st.selectbox("Selecciona Post 1:", post_ids2, key="post1-ig")
+                    post2ig = st.selectbox("Selecciona Post 2:", post_ids2, key="post2-ig")
+                    
+                    if post1ig and post2ig and post1ig != post2ig:
+                    
+                        # Filtrar cada posteo
+                        p1 = df_unido[df_unido["id"] == post1ig].iloc[0]
+                        p2 = df_unido[df_unido["id"] == post2ig].iloc[0]
+                    
+                        # Extraer métricas relevantes
+                        columnas_metricas2 = [
+                            "reach", "total interactions", "ER (%)", "likes",
+                            "comments", "shares","saved"
+                        ]
+                    
+                        df_comp2 = pd.DataFrame({
+                            "Métrica": columnas_metricas2,
+                            "Post 1": [p1[col] for col in columnas_metricas2],
+                            "Post 2": [p2[col] for col in columnas_metricas2],
+                        })
+                    
+                        # Nueva columna: comparación
+                        df_comp2["Comparación (P2 / P1 - 1) (%)"] = (
+                            (df_comp2["Post 2"] / df_comp2["Post 1"] - 1) * 100
+                        ).round(2)
+                    
+                        st.subheader("Comparación de Métricas de FB")
+                        st.dataframe(df_comp2)
+
+
+
+
+                
 
                 else:
                     st.write("No se encontraron publicaciones en el rango de fechas seleccionado.")
@@ -472,85 +514,6 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

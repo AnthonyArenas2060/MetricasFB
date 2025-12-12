@@ -41,9 +41,9 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🔍 Metricas - Facebook Pages")
+st.title("🔍 Metricas - Facebook & IG")
 
-user_long_token = st.text_input("Introduce tu token de acceso (short-lived):", type="password")
+user_long_token = st.text_input("Introduce tu token de acceso:", type="password")
 
 
 if user_long_token:
@@ -425,6 +425,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

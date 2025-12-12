@@ -183,7 +183,7 @@ if user_long_token:
                     cate = ["N/A"] * len(posteos["Imagen"])
                     
                     if indice == 13:
-                        genai.configure(api_key="AIzaSyCwNTjQZNA6cu5gmq_iS_I_l2HQThB07zs")
+                        genai.configure(api_key="AIzaSyCAgrC660P2grYk45ml8U3d3RsENlqUrO8")
                         model = genai.GenerativeModel("gemini-2.5-flash")
                     
                         url_imagenes = posteos["Imagen"].tolist()
@@ -325,6 +325,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

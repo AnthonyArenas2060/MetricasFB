@@ -218,7 +218,6 @@ if user_long_token:
                                 caption.append("")  # evita romper dimensiones
                     
                         # ---- LIMPIEZA ----
-                        lista_limpia = []
                         for s in caption:
                             if s is None:
                                 s = ""
@@ -242,6 +241,8 @@ if user_long_token:
                             cate = ["Feel the hype" if x else "N/A" for x in resultado_bool]
                         else:
                             cate = ["N/A"] * len(posteos["Imagen"])
+                    else:
+                        lista_limpia = ["N/A"] * len(posteos["Imagen"])                      
                     
                     posteos["Categoria"] = cate
                     posteos["texto"] = lista_limpia
@@ -326,6 +327,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

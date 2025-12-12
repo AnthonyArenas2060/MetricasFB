@@ -189,6 +189,8 @@ if user_long_token:
                                 },
                                 use_container_width=True
                             )
+                    cate = ["N/A"] * len(posteos)
+
                     if indice == 13:
                         genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
                         model = genai.GenerativeModel("gemini-2.5-flash")
@@ -203,7 +205,7 @@ if user_long_token:
                                 
                                 if respuesta_http.status_code == 200:
                                     
-                                    img = PIL.Image.open(io.BytesIO(respuesta_http.content))
+                                    img = Image.open(io.BytesIO(respuesta_http.content))
                         
                                     # 5. Enviamos a Gemini
                                     prompt = "Da el texto que tenga la imagen, solo el texto, no digas nada mas."
@@ -301,6 +303,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

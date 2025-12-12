@@ -143,13 +143,15 @@ if user_long_token:
                     link = []
                     img = []
                     com = []
+                    views = []
                     for i in posteos['id']:
-                        impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique,post_reactions_by_type_total')
+                        impresion_post = graph.get_connections(id=str(i),connection_name='insights',metric='post_impressions_unique, post_impressions_paid_unique,post_reactions_by_type_total, post_video_views_organic')
                         comments = graph.get_connections(id=str(i), connection_name="comments")
                         imp.append(impresion_post['data'][0]['values'][0]['value'])
                         imp_pg.append(impresion_post['data'][1]['values'][0]['value'])
                         react.append(sum(impresion_post['data'][2]['values'][0]['value'].values()))
                         com.append(len(comments['data']))
+                        views.append(impresion_post['data'][3]['values'][0]['value'])
                         
                         try:
                             shar = graph.get_object(id=str(i),fields='shares')
@@ -169,6 +171,7 @@ if user_long_token:
                     posteos['Imagen'] = img  
                     posteos['Alcance'] = imp
                     posteos['Alcance Pagado'] = imp_pg
+                    posteos['Views'] = views
                     posteos['Reacciones'] = react
                     tp = []
                     for i in posteos['Alcance Pagado']:
@@ -469,6 +472,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

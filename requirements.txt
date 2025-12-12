@@ -7,3 +7,4 @@ numpy
 io
 google-generativeai
 Pillow
+altair

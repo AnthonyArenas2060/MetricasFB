@@ -206,9 +206,6 @@ if user_long_token:
                                     #print(response.text)
                                     caption.append(response.text)
                                     
-                        
-                        
-                                    
                                 else:
                                     print("❌ Error al descargar la imagen. Código:", respuesta_http.status_code)
                         
@@ -221,12 +218,10 @@ if user_long_token:
                         
                         flags = re.IGNORECASE
                         resultado_bool = [bool(re.search(r"\bhype\b", s, flags)) for s in lista_limpia]
-                        cate = []
-                        for i in resultado_bool:
-                            if i == True:
-                                cate.append("Feel the hype")
-                            else:
-                                cate.append("N/A")
+                        if len(resultado_bool) == len(posteos["Imagen"]):
+                            cate = ["Feel the hype" if i else "N/A" for i in resultado_bool]
+                        else:
+                            cate = ["N/A"] * len(posteos["Imagen"])
                     posteos["Categoria"] = cate
                     
                     st.subheader("📋 Post asociadas a tu cuenta")
@@ -308,6 +303,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -218,6 +218,7 @@ if user_long_token:
                                 caption.append("")  # evita romper dimensiones
                     
                         # ---- LIMPIEZA ----
+                        lista_limpia = []
                         for s in caption:
                             if s is None:
                                 s = ""
@@ -327,6 +328,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

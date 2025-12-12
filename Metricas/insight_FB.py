@@ -180,7 +180,7 @@ if user_long_token:
                     posteos["Shares"] = sh
                     posteos["Tipo"] = tp  
 
-
+                    cate = ["N/A"] * len(posteos["Imagen"])
                     if indice == 13:
                         genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
                         model = genai.GenerativeModel("gemini-2.5-flash")
@@ -242,7 +242,6 @@ if user_long_token:
                                 },
                                 use_container_width=True
                             )
-                    cate = ["N/A"] * len(posteos)
 
                     #print(resultado_bool)
 
@@ -309,6 +308,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -5,6 +5,11 @@ import requests
 import matplotlib.pyplot as plt
 import numpy as np
 import altair as alt
+import google.generativeai as genai
+import PIL.Image
+import requests 
+import io       
+import re
 
 
 
@@ -184,7 +189,54 @@ if user_long_token:
                                 },
                                 use_container_width=True
                             )
-
+                    if indice == 13:
+                        genai.configure(api_key="AIzaSyCPo6An-sYuFPfGBQeueJHQaf-d_wM2Fag")
+                        model = genai.GenerativeModel("gemini-2.5-flash")
+                        url_imagenes = posteos["Imagen"]
+                        
+                        caption = []
+                        for url_imagen in url_imagenes:
+                            try:
+                                print("⏳ Descargando imagen...")
+                                
+                                respuesta_http = requests.get(url_imagen)
+                                
+                                if respuesta_http.status_code == 200:
+                                    
+                                    img = PIL.Image.open(io.BytesIO(respuesta_http.content))
+                        
+                                    # 5. Enviamos a Gemini
+                                    prompt = "Da el texto que tenga la imagen, solo el texto, no digas nada mas."
+                                    #print("👀 Analizando con Gemini...")
+                                    
+                                    response = model.generate_content([prompt, img])
+                                    #print("\n📝 Respuesta:")
+                                    #print(response.text)
+                                    caption.append(response.text)
+                                    
+                        
+                        
+                                    
+                                else:
+                                    print("❌ Error al descargar la imagen. Código:", respuesta_http.status_code)
+                        
+                            except Exception as e:
+                                print(f"❌ Error: {e}")
+                        
+                        lista_limpia = [s.replace("\n", " ") for s in caption]
+                        #print(lista_limpia)
+                        
+                        
+                        flags = re.IGNORECASE
+                        resultado_bool = [bool(re.search(r"\bhype\b", s, flags)) for s in lista_limpia]
+                        cate = []
+                        for i in resultado_bool:
+                            if i == True:
+                                cate.append("Feel the hype")
+                            else:
+                                cate.append("N/A")
+                    posteos["Categoria"] = cate
+                    #print(resultado_bool)
 
                     fans_city = graph.get_connections(id=page_id, connection_name = 'insights', metric = 'page_follows_city',
                                    since = date_ini, until = date_fin)
@@ -202,8 +254,6 @@ if user_long_token:
                         .properties(width=800, height=600)
                     )
 
-                                       
-                    
                     st.altair_chart(chart)
                     st.subheader("Instagram")
                     ig_content["timestamp"] = pd.to_datetime(ig_content["timestamp"], errors="coerce").dt.date
@@ -251,6 +301,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

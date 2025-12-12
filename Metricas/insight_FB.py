@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import altair as alt
 import google.generativeai as genai
-import PIL.Image as Image
+from PIL import Image
 import requests 
 import io       
 import re
@@ -303,6 +303,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

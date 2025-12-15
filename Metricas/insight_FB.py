@@ -331,6 +331,20 @@ if user_long_token:
                     
                     info_ciudad_ig = graph.get_object(f"{ig_user_id}/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=city&since=01-12-2025")
                     ciudad = pd.DataFrame(info_ciudad_ig)
+                    ciudad.columns = ["Ciudad", "valor"]
+                    chart = (
+                        alt.Chart(ciudad)
+                        .mark_bar()
+                        .encode(
+                            x=alt.X("valor:Q", title="valor"),
+                            y=alt.Y("Ciudad:N", sort='-x', title="Ciudad"),
+                            tooltip=["Ciudad", "valor"]
+                        )
+                        .properties(width=800, height=600)
+                    )
+
+
+                    
                     st.altair_chart(ciudad)
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
@@ -517,6 +531,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

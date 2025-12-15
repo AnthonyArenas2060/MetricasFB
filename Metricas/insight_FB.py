@@ -329,23 +329,40 @@ if user_long_token:
                         
                         filas.append(fila)   # Agregamos la fila de este post a la lista
                     
-                    info_ciudad_ig = graph.get_object(f"{ig_user_id}/insights?metric=follower_demographics&period=lifetime&metric_type=total_value&breakdown=city&since=01-12-2025")
-                    ciudad = pd.DataFrame(info_ciudad_ig)
+                    info_ciudad_ig = graph.get_object(
+                        f"{ig_user_id}/insights",
+                        metric="follower_demographics",
+                        period="lifetime",
+                        metric_type="total_value",
+                        breakdown="city"
+                    )
+                    
+                    # Extraer correctamente los datos
+                    ciudades_data = (
+                        info_ciudad_ig["data"][0]["total_value"]["breakdowns"][0]["results"]
+                    )
+                    
+                    # Convertir a DataFrame
+                    ciudad = pd.DataFrame(ciudades_data)
                     ciudad.columns = ["Ciudad", "valor"]
+                    
+                    # Gráfica
                     ciudad_df = (
                         alt.Chart(ciudad)
                         .mark_bar()
                         .encode(
-                            x=alt.X("valor:Q", title="valor"),
+                            x=alt.X("valor:Q", title="Seguidores"),
                             y=alt.Y("Ciudad:N", sort='-x', title="Ciudad"),
-                            tooltip=["Ciudad", "valor"]
+                            tooltip=[
+                                alt.Tooltip("Ciudad:N", title="Ciudad"),
+                                alt.Tooltip("valor:Q", title="Seguidores")
+                            ]
                         )
                         .properties(width=800, height=600)
                     )
-
-
                     
-                    st.altair_chart(ciudad_df)
+                    st.altair_chart(ciudad_df, use_container_width=True)
+
                     ig_mets = pd.DataFrame(filas)
                     df_unido = pd.merge(ig_content_filtrado, ig_mets, on='id', how='inner')
                     df_unido["ER (%)"]=df_unido["total_interactions"]/df_unido["reach"] *100
@@ -531,6 +548,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

@@ -41,7 +41,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🔍 Metricas - Facebook & IG")
+st.title("Metricas - Facebook & IG")
 
 user_long_token = st.text_input("Introduce tu token de acceso:", type="password")
 
@@ -50,18 +50,18 @@ if user_long_token:
     try:
         graph = facebook.GraphAPI(access_token=user_long_token, version="3.1")
 
-        # 3️⃣ Inputs de fecha
+        # Inputs de fecha
         date_ini = st.date_input("Selecciona la fecha inicial")
         date_fin = st.date_input("Selecciona la fecha final")
 
-        # 4️⃣ Obtener información de las páginas asociadas
+        # Obtener información de las páginas asociadas
         page_data = graph.get_object('/me/accounts')
         info = pd.DataFrame(page_data['data'])
 
-        st.subheader("📋 Páginas asociadas a tu cuenta")
+        st.subheader("Páginas asociadas a tu cuenta")
         st.dataframe(info['name'])
 
-        # 5️⃣ Permitir seleccionar un número (por ejemplo, el índice de una fila)
+        # Permitir seleccionar un número (por ejemplo, el índice de una fila)
         if not info.empty:
             indice = st.number_input(
                 "Selecciona el número de fila que deseas usar:",
@@ -83,7 +83,7 @@ if user_long_token:
         
                 # Validar que exista la clave
                     if "instagram_business_account" not in ig_account:
-                        st.error("❌ Esta página no tiene una cuenta de Instagram profesional vinculada.")
+                        st.error("Esta página no tiene una cuenta de Instagram profesional vinculada.")
                     else:
                         ig_user_id = ig_account["instagram_business_account"]["id"]
             
@@ -95,7 +95,7 @@ if user_long_token:
                         
             
                 except facebook.GraphAPIError as e:
-                    st.error(f"❌ Error de Graph API: {e}")
+                    st.error(f"Error de Graph API: {e}")
 
 
                 #fans = graph.get_connections(id = page_id, connection_name = 'insights', metric = 'page_fans', since = date_ini, until = date_fin)
@@ -238,7 +238,7 @@ if user_long_token:
                                         caption.append("")  # evita listas vacías
                         
                                 except Exception as e:
-                                    print(f"❌ Error: {e}")
+                                    print(f"Error: {e}")
                                     caption.append("")  # evita romper dimensiones
                         
                             # ---- LIMPIEZA ----
@@ -274,7 +274,7 @@ if user_long_token:
                     posteos["Categoria"] = cate
                     posteos["texto"] = lista_limpia
 
-                    st.subheader("📋 Post asociadas a tu cuenta")
+                    st.subheader("Post asociadas a tu cuenta")
                     #st.dataframe(posteos)
                     st.dataframe(posteos,
                                 column_config={
@@ -390,7 +390,7 @@ if user_long_token:
                             caption = []
                             for url_imagen in url_imagenes:
                                 try:
-                                    print("⏳ Descargando imagen...")
+                                    print("Descargando imagen...")
                         
                                     resp = requests.get(url_imagen)
                         
@@ -413,7 +413,7 @@ if user_long_token:
                                         caption.append("")  # evita listas vacías
                         
                                 except Exception as e:
-                                    print(f"❌ Error: {e}")
+                                    print(f"Error: {e}")
                                     caption.append("")  # evita romper dimensiones
                         
                             # ---- LIMPIEZA ----
@@ -462,10 +462,10 @@ if user_long_token:
                             )
 
                     # ============================
-                    # 🔽 Selección de Posteos
+                    # Selección de Posteos
                     # ============================
                     
-                    st.subheader("📌 Selecciona dos posteos para comparar de FB")
+                    st.subheader("Selecciona dos posteos para comparar de FB")
                     
                     # Lista de IDs
                     post_ids = posteos["id"].tolist()
@@ -500,10 +500,10 @@ if user_long_token:
                         st.dataframe(df_comp)
 
                  # ============================
-                    # 🔽 Selección de Posteos
+                    # Selección de Posteos
                     # ============================
                     
-                    st.subheader("📌 Selecciona dos posteos para comparar de IG")
+                    st.subheader("Selecciona dos posteos para comparar de IG")
                     
                     # Lista de IDs
                     post_ids2 = df_unido["id"].tolist()
@@ -548,6 +548,7 @@ if user_long_token:
 
     except Exception as e:
         st.error(f"Ocurrió un error: {e}")
+
 
 
 

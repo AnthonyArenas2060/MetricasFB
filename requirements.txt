@@ -1,9 +1,5 @@
 streamlit
-facebook-sdk
-pandas
-matplotlib
 requests
-numpy  
-google-generativeai==0.7.2
-Pillow
-altair
+pandas
+os
+urllib3
